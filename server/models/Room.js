@@ -9,6 +9,7 @@ const roomSchema = new mongoose.Schema({
   guests: { type: Number, min: 1, required: true },
   beds: { type: String, required: true },
   image: { type: String, required: true },
+  images: [{ type: String }],
   description: { type: String, required: true },
   amenities: [{ type: String }]
 }, { timestamps: true });
