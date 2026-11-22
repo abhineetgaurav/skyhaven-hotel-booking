@@ -1,0 +1,13 @@
+import Room from "./models/Room.js";
+const rooms = [
+ {name:"The Azure Grand",type:"Hotel",location:"Goa, India",price:6499,rating:4.9,reviews:284,guests:2,beds:"1 king bed",image:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",description:"A refined coastal escape with bright, airy suites, thoughtful service and a beautiful pool.",amenities:["Pool","Free Wi-Fi","Breakfast","Sea view"]},
+ {name:"Cloudline Mountain Resort",type:"Resort",location:"Manali, India",price:5299,rating:4.8,reviews:196,guests:3,beds:"1 queen + sofa bed",image:"https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=1200&q=85",description:"Wake up to mountain air, forest views and cozy modern interiors made for slow mornings.",amenities:["Mountain view","Restaurant","Parking","Heating"]},
+ {name:"The Sunday House",type:"Boutique",location:"Jaipur, India",price:3899,rating:4.7,reviews:142,guests:2,beds:"1 queen bed",image:"https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=85",description:"A character-filled boutique stay mixing handcrafted details with contemporary comfort.",amenities:["Breakfast","Free Wi-Fi","Courtyard","Air conditioning"]},
+ {name:"Bluewater Beach Villas",type:"Resort",location:"Kochi, India",price:7899,rating:4.9,reviews:118,guests:4,beds:"2 king beds",image:"https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85",description:"Private villa living with tropical gardens, sunlit spaces and an easygoing waterfront feel.",amenities:["Private pool","Waterfront","Kitchen","Airport transfer"]},
+ {name:"Little Nest Apartment",type:"Apartment",location:"Bengaluru, India",price:2499,rating:4.6,reviews:87,guests:3,beds:"1 queen + 1 single",image:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=85",description:"A comfortable, design-led city apartment with a full kitchen and room to unwind.",amenities:["Kitchen","Workspace","Free Wi-Fi","Washer"]},
+ {name:"The Pearl Residency",type:"Hotel",location:"Udaipur, India",price:4599,rating:4.8,reviews:203,guests:2,beds:"1 king bed",image:"https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85",description:"An elegant hideaway inspired by lakeside palaces, with warm hospitality and sunset views.",amenities:["Rooftop dining","Pool","Breakfast","Lake view"]}
+];
+export async function seedRooms() {
+  const count = await Room.countDocuments();
+  if (!count) await Room.insertMany(rooms);
+}
