@@ -8,7 +8,7 @@ import Room from "./models/Room.js";
 import Booking from "./models/Booking.js";
 import User from "./models/User.js";
 import Review from "./models/Review.js";
-import { seedRooms } from "./seed.js";
+import { seedRooms, repairImages } from "./seed.js";
 import { sendBookingConfirmation, sendCancellationEmail, sendPaymentReceipt, safely } from "./mailer.js";
 import { validatePaymentInput, charge, BANKS } from "./payments.js";
 import { signToken, requireAuth, requireAdmin, optionalAuth } from "./middleware/auth.js";
@@ -277,5 +277,5 @@ async function ensureAdmin() {
 }
 const port = process.env.PORT || 5001;
 mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/skyhaven")
-  .then(async () => { console.log("MongoDB connected"); await seedRooms(); await ensureAdmin(); app.listen(port, () => console.log(`API running on http://localhost:${port}`)); })
+  .then(async () => { console.log("MongoDB connected"); await seedRooms(); await repairImages(); await ensureAdmin(); app.listen(port, () => console.log(`API running on http://localhost:${port}`)); })
   .catch(err => { console.error("MongoDB connection failed. Start MongoDB and check server/.env.", err.message); process.exit(1); });

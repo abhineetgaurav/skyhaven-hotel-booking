@@ -7,6 +7,8 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import Account from "./pages/Account.jsx";
 import Admin from "./pages/Admin.jsx";
+import Saved from "./pages/Saved.jsx";
+import Confirmation from "./pages/Confirmation.jsx";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/saved" element={<Saved />} />
+        <Route path="/booking-confirmed" element={<Confirmation />} />
       </Route>
     </Routes>
   );

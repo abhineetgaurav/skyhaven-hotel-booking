@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Waves, Menu, ArrowRight, ShieldCheck } from "lucide-react";
+import { Waves, Menu, ArrowRight, ShieldCheck, Heart } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Header({ onOpenManage }) {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logout, wishlist } = useAuth();
   const navigate = useNavigate();
 
   function handleLogout() { logout(); setMobileMenu(false); navigate("/"); }
@@ -34,6 +34,7 @@ export default function Header({ onOpenManage }) {
         )}
       </nav>
       <div className="top-pill"><span className="online-dot"></span> Your next escape awaits</div>
+      <button className="saved-icon-btn" onClick={() => navigate("/saved")} aria-label={`Saved stays${wishlist.length ? ` (${wishlist.length})` : ""}`} title="Saved stays"><Heart size={20} fill={wishlist.length ? "currentColor" : "none"} />{wishlist.length > 0 && <span className="count">{wishlist.length}</span>}</button>
     </header>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { MapPin, Heart, Sparkles, Star, BedDouble, Users, ArrowRight } from "lucide-react";
 import { money } from "../money.js";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -8,12 +8,14 @@ import { useNotice } from "../context/NoticeContext.jsx";
 export default function RoomCard({ room, index, tripState }) {
   const { user, wishlist, toggleWishlist } = useAuth();
   const { notify } = useNotice();
+  const navigate = useNavigate();
+  const here = useLocation();
   const hearted = wishlist.includes(room._id);
 
   async function onHeart(e) {
     e.preventDefault();
-    if (!user) { notify("error", "Log in to save your favourite stays."); return; }
-    try { await toggleWishlist(room._id); } catch { notify("error", "Could not update your wishlist."); }
+    if (!user) { notify("error", "Log in to save your favourite stays."); navigate("/login", { state: { from: here.pathname } }); return; }
+    try { await toggleWishlist(room._id); notify("success", hearted ? "Removed from your favourites." : `Saved ${room.name} to your favourites ♥ — find it under Saved.`); } catch { notify("error", "Could not update your wishlist."); }
   }
 
   return (

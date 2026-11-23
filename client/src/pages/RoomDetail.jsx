@@ -47,8 +47,8 @@ export default function RoomDetail() {
   }, [reviews, user]);
 
   async function onHeart() {
-    if (!user) { notify("error", "Log in to save your favourite stays."); return; }
-    try { await toggleWishlist(room._id); } catch { notify("error", "Could not update your wishlist."); }
+    if (!user) { notify("error", "Log in to save your favourite stays."); navigate("/login", { state: { from: location.pathname } }); return; }
+    try { await toggleWishlist(room._id); notify("success", hearted ? "Removed from your favourites." : "Saved to your favourites ♥ — find it under Saved."); } catch { notify("error", "Could not update your wishlist."); }
   }
 
   async function submitReview(e) {
@@ -148,13 +148,13 @@ export default function RoomDetail() {
           room={room} checkIn={checkIn} checkOut={checkOut} setCheckIn={setCheckIn} setCheckOut={setCheckOut}
           guests={guests} setGuests={setGuests}
           onClose={() => setShowBooking(false)}
-          onDone={b => { setShowBooking(false); notify("success", `You're all set! Reservation confirmed for ${b.roomName}. Check your email for details.`); setPayBooking(b); }}
+          onDone={b => { setShowBooking(false); setPayBooking(b); }}
         />
       )}
       {payBooking && (
         <PaymentModal
           booking={payBooking}
-          onClose={paid => { setPayBooking(null); if (!paid) notify("success", "No problem — you can pay online later from My bookings, or before checkout at the property."); navigate("/"); }}
+          onClose={paid => { const b = paid || payBooking; setPayBooking(null); navigate("/booking-confirmed", { state: { booking: b } }); }}
         />
       )}
     </section>
