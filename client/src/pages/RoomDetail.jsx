@@ -6,6 +6,7 @@ import { money, todayStr, plusDays } from "../money.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNotice } from "../context/NoticeContext.jsx";
 import BookingModal from "../components/BookingModal.jsx";
+import PaymentModal from "../components/PaymentModal.jsx";
 
 export default function RoomDetail() {
   const { id } = useParams();
@@ -20,6 +21,7 @@ export default function RoomDetail() {
   const [activeImage, setActiveImage] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [showBooking, setShowBooking] = useState(false);
+  const [payBooking, setPayBooking] = useState(null);
 
   const [checkIn, setCheckIn] = useState(location.state?.checkIn || plusDays(7));
   const [checkOut, setCheckOut] = useState(location.state?.checkOut || plusDays(9));
@@ -146,7 +148,13 @@ export default function RoomDetail() {
           room={room} checkIn={checkIn} checkOut={checkOut} setCheckIn={setCheckIn} setCheckOut={setCheckOut}
           guests={guests} setGuests={setGuests}
           onClose={() => setShowBooking(false)}
-          onDone={b => { setShowBooking(false); notify("success", `You're all set! Reservation confirmed for ${b.roomName}.`); navigate("/"); }}
+          onDone={b => { setShowBooking(false); notify("success", `You're all set! Reservation confirmed for ${b.roomName}. Check your email for details.`); setPayBooking(b); }}
+        />
+      )}
+      {payBooking && (
+        <PaymentModal
+          booking={payBooking}
+          onClose={paid => { setPayBooking(null); if (!paid) notify("success", "No problem — you can pay online later from My bookings, or before checkout at the property."); navigate("/"); }}
         />
       )}
     </section>

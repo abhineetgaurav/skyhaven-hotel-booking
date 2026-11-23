@@ -83,7 +83,7 @@ export default function BookingModal({ room, checkIn, checkOut, setCheckIn, setC
             <div className="total-line"><b>Total for your stay</b><strong>{money(total)}</strong></div>
           </div>
           <button className="confirm-button" type="submit" disabled={busy}>{busy ? "Confirming your stay…" : <>Confirm reservation <ArrowRight size={17} /></>}</button>
-          <p className="form-footnote"><ShieldCheck size={14} /> Your details are used to manage this reservation. Demo project — no payment is collected.</p>
+          <p className="form-footnote"><ShieldCheck size={14} /> Your details are used to manage this reservation. After confirming you can pay online by UPI, card or net banking, or pay before checkout.</p>
         </form>
       </section>
     </div>

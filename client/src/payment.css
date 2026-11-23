@@ -1,0 +1,27 @@
+.pay-modal{max-width:460px;width:94vw}
+.pay-modal h2{font:800 25px Manrope,sans-serif;color:#1c405a;margin:6px 0 14px}
+.pay-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,#eaf7ff,#f4fbff);border:1px solid #d3eaf8;border-radius:16px;padding:14px 18px;margin-bottom:16px}
+.pay-summary b{display:block;font-size:14px;color:#18374f}.pay-summary small{font-size:11px;color:#70879a}
+.pay-summary strong{font:800 22px Manrope,sans-serif;color:#125c91}
+.pay-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.pay-tabs button{display:flex;flex-direction:column;align-items:center;gap:6px;border:1.5px solid #e1edf4;background:#fff;border-radius:14px;padding:12px 6px;font-size:12px;font-weight:700;color:#4d6c82;transition:all .18s}
+.pay-tabs button:hover{border-color:#9fd4f2}
+.pay-tabs button.active{border-color:#168bd2;background:#eaf7ff;color:#125c91;box-shadow:0 6px 16px #168bd222}
+.pay-modal form{display:flex;flex-direction:column;gap:12px}
+.pay-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pay-hint{color:#8499a7;font-size:11px;margin-top:5px;display:block}
+.pay-failure{display:flex;gap:11px;background:#fff1f2;border:1px solid #f7c9ce;color:#a8323f;border-radius:14px;padding:13px 15px;font-size:13px;animation:riseIn .3s both}
+.pay-failure p{margin:3px 0 0;line-height:1.5}
+.pay-failure .pay-fallback{color:#6b5560;font-size:12px;margin-top:8px}
+.pay-later{border:0;background:none;color:#168bd2;font-weight:700;font-size:13px;padding:6px;text-decoration:underline}
+.pay-success{text-align:center;padding:10px 0}
+.pay-success-icon{display:inline-grid;place-items:center;width:78px;height:78px;border-radius:50%;background:#e0f7ee;color:#1b9a6c;margin-bottom:8px;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.pay-receipt{display:grid;grid-template-columns:auto 1fr;gap:8px 18px;text-align:left;background:#f3faff;border-radius:14px;padding:14px 18px;margin:16px 0;font-size:13px}
+.pay-receipt span{color:#70879a}.pay-receipt b{text-align:right;color:#18374f}
+.pay-receipt .mono{font-family:ui-monospace,Consolas,monospace;letter-spacing:1px}
+.pay-note{color:#70879a;font-size:12px;margin-bottom:16px}
+.pay-badge{display:inline-block;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px}
+.pay-badge.paid{background:#e0f7ee;color:#1b9a6c}.pay-badge.due{background:#fff3d9;color:#b97a06}
+.pay-now-link{border:0;background:#168bd2;color:#fff;font-weight:700;font-size:12px;border-radius:10px;padding:7px 13px}
+.pay-now-link:hover{background:#125c91}

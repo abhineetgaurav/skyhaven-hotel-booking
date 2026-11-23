@@ -79,3 +79,45 @@
 
 @media(max-width:900px){.detail-grid{grid-template-columns:1fr}.booking-aside{position:static}.gallery-main{height:300px}}
 @media(max-width:600px){.detail-head{flex-direction:column}.detail-head h1{font-size:26px}.auth-card{padding:26px 20px}}
+
+/* ===== v2 polish: filters, sorting, cards, motion ===== */
+:root{--grad:linear-gradient(135deg,#168bd2 0%,#3fc0e8 100%);--shadow-lg:0 24px 60px #14527a1f}
+body{background:linear-gradient(180deg,#f7fbfe 0%,#eef8ff 100%)}
+.topbar{backdrop-filter:blur(14px);position:sticky;top:0;box-shadow:0 1px 0 #e6f1f8}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.search-panel{backdrop-filter:blur(16px);box-shadow:var(--shadow-lg);border:1px solid #ffffffcc}
+.search-button{background:var(--grad)!important;transition:transform .2s,box-shadow .2s}
+.search-button:hover{transform:translateY(-2px);box-shadow:0 12px 28px #168bd246}
+.benefit{transition:transform .25s,box-shadow .25s}
+.benefit:hover{transform:translateY(-4px);box-shadow:0 16px 34px #1a5b8318}
+.hero-visual img{transition:transform 1.2s ease}
+.hero-visual:hover img{transform:scale(1.04)}
+.room-card{transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;animation:riseIn .55s both}
+.room-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+.room-image-wrap{overflow:hidden}
+.room-image-wrap img{transition:transform .6s ease}
+.room-card:hover .room-image-wrap img{transform:scale(1.08)}
+.room-grid .room-card:nth-child(2){animation-delay:.06s}.room-grid .room-card:nth-child(3){animation-delay:.12s}.room-grid .room-card:nth-child(4){animation-delay:.18s}
+@keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+.details-button{background:var(--grad);color:#fff!important;border:0;transition:transform .2s,box-shadow .2s}
+.details-button:hover{transform:translateX(3px);box-shadow:0 8px 20px #168bd23d}
+.amenity-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+.amenity-tags i{font-style:normal;font-size:10.5px;font-weight:600;color:#2b6b93;background:#eaf7ff;border-radius:20px;padding:5px 10px}
+.amenity-tags i.more{background:#f1f5f8;color:#7c93a3}
+.filters-more{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:-4px 0 18px}
+.more-toggle,.sort-select,.applied-pill{display:inline-flex;align-items:center;gap:8px;border:1px solid #d8eaf5;background:#fff;color:#24516f;border-radius:30px;padding:10px 16px;font-size:12px;font-weight:700;transition:all .2s}
+.more-toggle:hover,.more-toggle.open{background:#eaf7ff;border-color:#9fd4f2}
+.sort-select{margin-left:auto;padding:0 14px}
+.sort-select select{border:0;background:transparent;font-weight:700;color:#24516f;padding:10px 4px;outline:none;cursor:pointer}
+.applied-pill{background:#e9f9f2;border-color:#bfead6;color:#1d7a59}
+.applied-pill button{border:0;background:#1d7a5922;color:#1d7a59;border-radius:50%;width:18px;height:18px;line-height:16px;padding:0}
+.clear-link{border:0;background:none;color:#168bd2;font-weight:700;font-size:12px;text-decoration:underline}
+.amenity-chips{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 22px;padding:16px;background:#f3faff;border-radius:16px;border:1px dashed #cfe6f4;animation:riseIn .3s both}
+.amenity-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid #d8eaf5;background:#fff;color:#3d6580;border-radius:30px;padding:8px 14px;font-size:12px;font-weight:600;transition:all .18s}
+.amenity-chip:hover{border-color:#168bd2}
+.amenity-chip.active{background:var(--grad);color:#fff;border-color:transparent}
+.type-chip{transition:all .2s}.type-chip.active{background:var(--grad)!important;color:#fff!important;border-color:transparent!important}
+@media(max-width:700px){.sort-select{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.admin-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#24516f;background:#eaf3f9;border-radius:10px;padding:9px 13px;transition:background .2s}
+.admin-link:hover{background:#d8ebf7;color:#168bd2}

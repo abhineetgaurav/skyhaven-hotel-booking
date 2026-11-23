@@ -12,6 +12,13 @@ const bookingSchema = new mongoose.Schema({
   phone: { type: String, required: true, trim: true },
   requests: { type: String, maxlength: 500, default: "" },
   totalPrice: { type: Number, required: true, min: 1 },
+  // "Pending" = still owed: the guest can pay online any time, or at the property before checkout.
+  paymentStatus: { type: String, enum: ["Pending", "Paid"], default: "Pending" },
+  paymentMethod: { type: String, default: "" },
+  transactionId: { type: String, default: "" },
+  paidAt: { type: Date },
+  paymentFailures: { type: Number, default: 0 },
+  lastPaymentError: { type: String, default: "" },
   status: { type: String, enum: ["Confirmed", "Cancelled"], default: "Confirmed" }
 }, { timestamps: true });
 export default mongoose.model("Booking", bookingSchema);

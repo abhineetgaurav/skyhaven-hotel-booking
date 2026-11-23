@@ -3,11 +3,13 @@ import { X, ClipboardList, Mail, BedDouble, ShieldCheck } from "lucide-react";
 import { apiFetch } from "../api.js";
 import { money } from "../money.js";
 import { InlineNotice } from "./Notice.jsx";
+import PaymentModal, { PaymentBadge } from "./PaymentModal.jsx";
 
 export default function ManageBookingsModal({ onClose }) {
   const [myEmail, setMyEmail] = useState("");
   const [bookings, setBookings] = useState([]);
   const [notice, setNotice] = useState(null);
+  const [payBooking, setPayBooking] = useState(null);
 
   async function searchBookings(e) {
     e.preventDefault();
@@ -51,11 +53,14 @@ export default function ManageBookingsModal({ onClose }) {
               </div>
               <div className="booking-actions">
                 <span className={b.status === "Confirmed" ? "status-confirmed" : "status-cancelled"}>{b.status}</span>
+                <PaymentBadge booking={b} />
+                {b.status === "Confirmed" && b.paymentStatus !== "Paid" && <button className="pay-now-link" onClick={() => setPayBooking(b)}>Pay now</button>}
                 {b.status === "Confirmed" && <button className="cancel-link" onClick={() => cancelBooking(b._id)}>Cancel</button>}
               </div>
             </div>
           ))}
         </div>
+        {payBooking && <PaymentModal booking={payBooking} onPaid={nb => setBookings(prev => prev.map(x => x._id === nb._id ? nb : x))} onClose={() => setPayBooking(null)} />}
         <div className="secure-note"><ShieldCheck size={16} /> Your reservation details are looked up using your email address.</div>
       </section>
     </div>

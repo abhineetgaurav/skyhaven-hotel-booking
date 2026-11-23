@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Link, useLocation } from "react-router-dom";
 import { BedDouble, Heart, MapPin, Star, ArrowRight, ShieldCheck } from "lucide-react";
 import { apiFetch } from "../api.js";
+import PaymentModal, { PaymentBadge } from "../components/PaymentModal.jsx";
 import { money } from "../money.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNotice } from "../context/NoticeContext.jsx";
@@ -11,6 +12,7 @@ export default function Account() {
   const { notify } = useNotice();
   const location = useLocation();
   const [bookings, setBookings] = useState([]);
+  const [payBooking, setPayBooking] = useState(null);
   const [wishlistRooms, setWishlistRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,6 +65,8 @@ export default function Account() {
               </div>
               <div className="booking-actions">
                 <span className={b.status === "Confirmed" ? "status-confirmed" : "status-cancelled"}>{b.status}</span>
+                <PaymentBadge booking={b} />
+                {b.status === "Confirmed" && b.paymentStatus !== "Paid" && <button className="pay-now-link" onClick={() => setPayBooking(b)}>Pay now</button>}
                 {b.status === "Confirmed" && <button className="cancel-link" onClick={() => cancelBooking(b._id)}>Cancel</button>}
               </div>
             </div>
@@ -91,6 +95,7 @@ export default function Account() {
           ))}
         </div>
       )}
+      {payBooking && <PaymentModal booking={payBooking} onPaid={nb => setBookings(prev => prev.map(x => x._id === nb._id ? nb : x))} onClose={() => setPayBooking(null)} />}
       <div className="secure-note"><ShieldCheck size={16} /> Your bookings are matched to your account email automatically.</div>
     </section>
   );

@@ -29,6 +29,7 @@ export default function RoomCard({ room, index, tripState }) {
         <div className="room-title-line"><h3>{room.name}</h3><span className="rating"><Star size={14} fill="currentColor" />{room.rating}</span></div>
         <p className="room-description">{room.description}</p>
         <div className="room-amenities"><span><BedDouble size={15} />{room.beds}</span><span><Users size={15} />Up to {room.guests}</span></div>
+        <div className="amenity-tags">{(room.amenities || []).slice(0, 3).map(a => <i key={a}>{a}</i>)}{(room.amenities || []).length > 3 && <i className="more">+{room.amenities.length - 3}</i>}</div>
         <div className="room-bottom">
           <div className="room-price"><b>{money(room.price)}</b><span>/ night</span><small>{room.reviews} guest reviews</small></div>
           <Link className="details-button" to={`/rooms/${room._id}`} state={tripState}>View stay <ArrowRight size={16} /></Link>

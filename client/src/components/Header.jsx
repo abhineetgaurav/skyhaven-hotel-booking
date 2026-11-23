@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Waves, Menu, ArrowRight } from "lucide-react";
+import { Waves, Menu, ArrowRight, ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Header({ onOpenManage }) {
@@ -21,11 +21,13 @@ export default function Header({ onOpenManage }) {
         <button className="nav-manage" onClick={() => { onOpenManage(); setMobileMenu(false); }}>My reservations <ArrowRight size={15} /></button>
         {user ? (
           <div className="user-menu">
+            {user.role === "admin" && <Link to="/admin" className="login-link" onClick={() => setMobileMenu(false)}>Admin</Link>}
             <Link to="/account" className="user-chip" onClick={() => setMobileMenu(false)}><span className="user-avatar">{user.name.charAt(0).toUpperCase()}</span>{user.name.split(" ")[0]}</Link>
             <button className="logout-link" onClick={handleLogout}>Log out</button>
           </div>
         ) : (
           <div className="auth-links">
+            <Link to="/admin" className="admin-link" onClick={() => setMobileMenu(false)}><ShieldCheck size={14} /> Admin</Link>
             <Link to="/login" className="login-link" onClick={() => setMobileMenu(false)}>Log in</Link>
             <Link to="/signup" className="signup-button" onClick={() => setMobileMenu(false)}>Sign up</Link>
           </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Search, MapPin, CalendarDays, Users, SlidersHorizontal, ShieldCheck, Heart, CheckCircle2, ArrowRight, AlertCircle, Sparkles, Clock, CreditCard, Star, Waves } from "lucide-react";
+import { Search, MapPin, CalendarDays, Users, SlidersHorizontal, ShieldCheck, Heart, CheckCircle2, ArrowRight, AlertCircle, Sparkles, Clock, CreditCard, Star, Waves, ArrowUpDown, Map, LayoutGrid } from "lucide-react";
+import MapView from "../components/MapView.jsx";
 import RoomCard from "../components/RoomCard.jsx";
 import { apiFetch } from "../api.js";
 import { todayStr, plusDays } from "../money.js";
@@ -13,7 +14,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
   const [search, setSearch] = useState(""), [submittedSearch, setSubmittedSearch] = useState("");
-  const [type, setType] = useState("All stays"), [maxPrice, setMaxPrice] = useState(10000), [rating, setRating] = useState("Any rating");
+  const [type, setType] = useState("All stays"), [maxPrice, setMaxPrice] = useState(20000), [rating, setRating] = useState("Any rating");
+  const [sort, setSort] = useState("recommended"), [amenities, setAmenities] = useState([]), [amenityOptions, setAmenityOptions] = useState([]), [applied, setApplied] = useState(null), [showMore, setShowMore] = useState(false), [view, setView] = useState("list");
   const [checkIn, setCheckIn] = useState(plusDays(7)), [checkOut, setCheckOut] = useState(plusDays(9)), [guests, setGuests] = useState(2);
 
   const loadRooms = async () => {
@@ -24,6 +26,9 @@ export default function Home() {
       if (type !== "All stays") q.set("type", type);
       q.set("maxPrice", String(maxPrice));
       if (rating !== "Any rating") q.set("minRating", rating);
+      q.set("sort", sort);
+      if (amenities.length) q.set("amenities", amenities.join(","));
+      if (applied) { q.set("checkIn", applied.checkIn); q.set("checkOut", applied.checkOut); q.set("guests", String(applied.guests)); }
       setRooms(await apiFetch(`/rooms?${q}`));
       setApiError("");
     } catch (e) {
@@ -31,7 +36,11 @@ export default function Home() {
       setRooms([]);
     } finally { setLoading(false); }
   };
-  useEffect(() => { loadRooms(); }, [submittedSearch, type, maxPrice, rating]);
+  useEffect(() => { loadRooms(); }, [submittedSearch, type, maxPrice, rating, sort, amenities, applied]);
+  useEffect(() => { apiFetch("/rooms/meta").then(m => setAmenityOptions(m.amenities)).catch(() => {}); }, []);
+  const toggleAmenity = a => setAmenities(list => list.includes(a) ? list.filter(x => x !== a) : [...list, a]);
+  const activeFilters = amenities.length + (type !== "All stays") + (rating !== "Any rating") + (maxPrice < 20000 ? 1 : 0) + (applied ? 1 : 0);
+  const resetAll = () => { setSearch(""); setSubmittedSearch(""); setType("All stays"); setMaxPrice(20000); setRating("Any rating"); setAmenities([]); setApplied(null); setSort("recommended"); };
 
   useEffect(() => {
     const id = location.state?.scrollTo;
@@ -56,7 +65,7 @@ export default function Home() {
           <div className="floating-card"><span className="float-icon"><Star size={18} fill="currentColor" /></span><div><b>Little moments. Big memories.</b><small>Find a stay that feels like you.</small></div></div>
           <div className="image-caption"><span>01 / YOUR NEXT ESCAPE</span><b>Make room for wonder.</b></div>
         </div>
-        <form className="search-panel" onSubmit={e => { e.preventDefault(); setSubmittedSearch(search.trim()); document.getElementById("stays")?.scrollIntoView({ behavior: "smooth" }); }}>
+        <form className="search-panel" onSubmit={e => { e.preventDefault(); setSubmittedSearch(search.trim()); setApplied({ checkIn, checkOut, guests }); document.getElementById("stays")?.scrollIntoView({ behavior: "smooth" }); }}>
           <label className="search-field destination"><span className="field-icon"><MapPin size={19} /></span><span className="field-content"><small>WHERE TO?</small><input value={search} onChange={e => setSearch(e.target.value)} placeholder="City, hotel, or hideaway" /></span></label>
           <label className="search-field"><span className="field-icon"><CalendarDays size={19} /></span><span className="field-content"><small>CHECK IN</small><input type="date" min={todayStr()} value={checkIn} onChange={e => { setCheckIn(e.target.value); if (checkOut <= e.target.value) setCheckOut(plusDays(2)); }} required /></span></label>
           <label className="search-field"><span className="field-icon"><CalendarDays size={19} /></span><span className="field-content"><small>CHECK OUT</small><input type="date" min={checkIn || todayStr()} value={checkOut} onChange={e => setCheckOut(e.target.value)} required /></span></label>
@@ -81,11 +90,21 @@ export default function Home() {
           <label className="price-filter"><span>Max / night</span><select value={maxPrice} onChange={e => setMaxPrice(Number(e.target.value))}><option value="3000">₹3,000</option><option value="5000">₹5,000</option><option value="7000">₹7,000</option><option value="10000">₹10,000</option><option value="20000">Any price</option></select></label>
           <label className="price-filter rating-filter"><span>Rating</span><select value={rating} onChange={e => setRating(e.target.value)}><option>Any rating</option><option value="4.5">4.5+ stars</option><option value="4.8">4.8+ stars</option></select></label>
         </div>
+        <div className="filters-more">
+          <button type="button" className={showMore ? "more-toggle open" : "more-toggle"} onClick={() => setShowMore(v => !v)}><SlidersHorizontal size={15} /> Amenities{amenities.length ? ` (${amenities.length})` : ""}</button>
+          {applied && <span className="applied-pill"><CalendarDays size={14} /> Available {applied.checkIn} → {applied.checkOut} · {applied.guests} guest{applied.guests > 1 ? "s" : ""}<button type="button" aria-label="Clear dates" onClick={() => setApplied(null)}>×</button></span>}
+          {activeFilters > 0 && <button type="button" className="clear-link" onClick={resetAll}>Clear all ({activeFilters})</button>}
+          <div className="view-toggle"><button type="button" className={view === "list" ? "active" : ""} onClick={() => setView("list")}><LayoutGrid size={14} /> List</button><button type="button" className={view === "map" ? "active" : ""} onClick={() => setView("map")}><Map size={14} /> Map</button></div>
+          <label className="sort-select"><ArrowUpDown size={15} /><select value={sort} onChange={e => setSort(e.target.value)} aria-label="Sort stays"><option value="recommended">Recommended</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="rating">Top rated</option><option value="popular">Most reviewed</option></select></label>
+        </div>
+        {showMore && <div className="amenity-chips">{amenityOptions.map(a => <button type="button" key={a} className={amenities.includes(a) ? "amenity-chip active" : "amenity-chip"} onClick={() => toggleAmenity(a)}>{amenities.includes(a) && <CheckCircle2 size={14} />}{a}</button>)}</div>}
         {apiError && <div className="server-warning"><AlertCircle size={19} /><div><b>Booking service unavailable</b><p>{apiError}</p></div></div>}
         {loading ? (
           <div className="loading-state"><span className="loader"></span><p>Finding your kind of wonderful…</p></div>
         ) : rooms.length === 0 ? (
-          <div className="empty-state"><span>☁️</span><h3>No stays found just yet</h3><p>Try another destination or loosen your filters a little.</p><button className="secondary-button" onClick={() => { setSearch(""); setSubmittedSearch(""); setType("All stays"); setMaxPrice(10000); setRating("Any rating"); }}>Clear filters</button></div>
+          <div className="empty-state"><span>☁️</span><h3>No stays found just yet</h3><p>Try another destination or loosen your filters a little.</p><button className="secondary-button" onClick={resetAll}>Clear filters</button></div>
+        ) : view === "map" ? (
+          <MapView rooms={rooms} tripState={tripState} />
         ) : (
           <div className="room-grid">{rooms.map((room, i) => <RoomCard key={room._id} room={room} index={i} tripState={tripState} />)}</div>
         )}

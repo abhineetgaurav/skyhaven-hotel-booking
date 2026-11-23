@@ -27,3 +27,9 @@ export async function optionalAuth(req, _res, next) {
   } catch { /* ignore invalid/expired token for optional auth */ }
   next();
 }
+export async function requireAdmin(req, res, next) {
+  await requireAuth(req, res, () => {
+    if (req.user.role !== "admin") return res.status(403).json({ message: "Admin access required." });
+    next();
+  });
+}
