@@ -9,7 +9,10 @@ const roomSchema = new mongoose.Schema({
   guests: { type: Number, min: 1, required: true },
   beds: { type: String, required: true },
   image: { type: String, required: true },
+  images: [{ type: String }],
   description: { type: String, required: true },
-  amenities: [{ type: String }]
+  amenities: [{ type: String }],
+  lat: { type: Number, min: -90, max: 90 },
+  lng: { type: Number, min: -180, max: 180 }
 }, { timestamps: true });
 export default mongoose.model("Room", roomSchema);

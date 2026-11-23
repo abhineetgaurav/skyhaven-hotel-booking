@@ -1,0 +1,27 @@
+.saved-page{padding:44px 0 90px}
+.saved-head{display:flex;align-items:center;gap:18px;margin-bottom:34px}
+.saved-icon{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe3e8,#ffd0d9);color:#e26c80;box-shadow:0 10px 26px #e26c8030}
+.saved-head h1{font:800 32px Manrope,sans-serif;letter-spacing:-1px;color:#1c405a;margin:0 0 4px}
+.saved-head p{margin:0;color:#70879a;font-size:14px}
+.saved-empty{text-align:center;max-width:420px;margin:50px auto;padding:46px 30px;border:2px dashed #cfe3f0;border-radius:28px;background:#f7fcff}
+.saved-empty>span{display:inline-grid;place-items:center;width:84px;height:84px;border-radius:50%;background:#ffe9ed;color:#e26c80;margin-bottom:14px}
+.saved-empty h2{font:800 22px Manrope,sans-serif;color:#1c405a;margin:0 0 8px}
+.saved-empty p{color:#70879a;font-size:14px;line-height:1.7;margin:0 0 22px}
+.saved-empty .details-button{display:inline-flex;align-items:center;gap:8px}
+
+/* header Saved link */
+.nav-saved{position:relative;display:inline-flex;align-items:center;gap:7px;border:0;background:none;color:#526d80;font-size:13px;font-weight:600;padding:0}
+.nav-saved svg{color:#e26c80}
+.nav-saved:hover{color:#e26c80}
+.nav-saved .count{min-width:19px;height:19px;border-radius:20px;background:#e26c80;color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.heart-button{transition:transform .2s}
+.heart-button:active{transform:scale(.8)}
+.heart-button.hearted svg{animation:heartPop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes heartPop{0%{transform:scale(.5)}100%{transform:scale(1)}}
+
+/* heart icon at the far right of the top bar */
+.saved-icon-btn{position:relative;flex:none;width:44px;height:44px;margin-left:14px;border-radius:50%;border:1px solid #f5d3da;background:#fff5f7;color:#e26c80;display:grid;place-items:center;transition:transform .2s,box-shadow .2s,background .2s}
+.saved-icon-btn:hover{background:#ffe9ed;transform:scale(1.08);box-shadow:0 8px 20px #e26c8030}
+.saved-icon-btn:active{transform:scale(.92)}
+.saved-icon-btn .count{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;border-radius:20px;background:#e26c80;color:#fff;font-size:10.5px;font-weight:800;display:grid;place-items:center;padding:0 5px;border:2px solid #fff}
+@media(max-width:900px){.saved-icon-btn{margin-left:4px}}
