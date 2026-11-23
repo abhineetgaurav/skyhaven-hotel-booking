@@ -121,3 +121,24 @@ body{background:linear-gradient(180deg,#f7fbfe 0%,#eef8ff 100%)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .admin-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#24516f;background:#eaf3f9;border-radius:10px;padding:9px 13px;transition:background .2s}
 .admin-link:hover{background:#d8ebf7;color:#168bd2}
+
+/* ===== Search panel: bold, high-contrast bar (Booking.com style) ===== */
+.search-panel{background:#0f4c75!important;border:0!important;border-radius:14px!important;padding:4px!important;gap:4px!important;min-height:0!important;backdrop-filter:none!important;box-shadow:0 22px 50px #0f4c7538,0 4px 0 #0a3652!important;transform:translateY(0);animation:riseIn .6s .1s both}
+.search-field{background:#fff;border:0!important;border-radius:10px!important;padding:14px 16px!important;gap:12px;min-height:68px;transition:box-shadow .15s,background .15s;cursor:text}
+.search-field:hover{background:#f5fbff}
+.search-field:focus-within{box-shadow:inset 0 0 0 2px #168bd2;background:#fff}
+.search-field .field-icon{color:#4b6b80;display:grid}
+.search-field:focus-within .field-icon{color:#168bd2}
+.search-field .field-icon svg{width:22px;height:22px}
+.field-content{gap:3px!important}
+.field-content>small{font-size:10px!important;letter-spacing:1.2px!important;color:#6b8394!important;font-weight:800!important}
+.field-content input,.field-content select{font-size:14.5px!important;font-weight:700!important;color:#18374f!important}
+.field-content input[type=date]{font-size:13.5px!important}
+.field-content input::placeholder{color:#8aa0b0!important;font-weight:600}
+.search-button{background:#1ea0ea!important;border-radius:10px!important;padding:0 34px!important;font-size:17px!important;font-weight:800!important;min-height:68px;gap:10px!important;box-shadow:none!important;letter-spacing:.2px}
+.search-button:hover{background:#38b2f5!important;transform:none!important;box-shadow:none!important}
+.search-button svg{width:22px;height:22px}
+@media(max-width:760px){
+  .search-panel{margin-top:-30px!important;border-radius:14px!important}
+  .search-button{min-height:56px;font-size:16px!important}
+}
